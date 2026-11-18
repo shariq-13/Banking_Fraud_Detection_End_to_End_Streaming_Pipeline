@@ -715,7 +715,7 @@ The score is a heuristic indicator, not a probability of fraud.
 
 **SHARIQ AHMAD**
 BS, NED University
-**GitHub: [github.com/shariq-13](https://github.com/shariq-13))**
+**GitHub: [github.com/shariq-13]((https://github.com/shariq-13))**
 
 <p align="center">
   <sub>Built with Kafka · S3 · Snowflake · dbt · Python</sub>
