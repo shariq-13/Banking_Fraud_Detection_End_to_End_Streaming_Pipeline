@@ -30,6 +30,7 @@
   <a href="#-skills-demonstrated">Skills</a> &middot;
   <a href="#-quick-start">Quick start</a> &middot;
   <a href="#-running-the-pipeline">Run it</a> &middot;
+  <a href="#-dashboard">Dashboard</a> &middot;
   <a href="#-testing">Testing</a> &middot;
   <a href="#-risk-scoring-rules">Risk rules</a> &middot;
   <a href="#-author">Author</a>
@@ -49,14 +50,15 @@
 6. [Quick start](#-quick-start)
 7. [Detailed setup](#-detailed-setup)
 8. [Running the pipeline](#-running-the-pipeline)
-9. [Testing](#-testing)
-10. [Risk scoring rules](#-risk-scoring-rules)
-11. [Design decisions](#-design-decisions)
-12. [Troubleshooting](#-troubleshooting)
-13. [Known limitations](#-known-limitations)
-14. [Future improvements](#-future-improvements)
-15. [Security](#-security)
-16. [Author](#-author)
+9. [Dashboard](#-dashboard)
+10. [Testing](#-testing)
+11. [Risk scoring rules](#-risk-scoring-rules)
+12. [Design decisions](#-design-decisions)
+13. [Troubleshooting](#-troubleshooting)
+14. [Known limitations](#-known-limitations)
+15. [Future improvements](#-future-improvements)
+16. [Security](#-security)
+17. [Author](#-author)
 
 ---
 
@@ -66,6 +68,7 @@
 - **Explainable scoring in flight.** Each event is validated, enriched and scored with a transparent rule set. Every point added to the score carries a reason code.
 - **Lakehouse-style storage.** The consumer writes a raw **Bronze** layer (JSON Lines) and a curated **Silver** layer (Parquet) to S3, partitioned by `year / month / day`.
 - **Safe, repeatable loading.** The loader merges Silver files into Snowflake with `MERGE` and records every file in a ledger table, so reruns never duplicate data.
+- **Fraud KPI dashboard.** Apache Superset charts on the dbt mart: transaction volume, flagged transactions and the risk-score distribution.
 - **Tested analytics layer.** dbt builds a staging view and a mart table with data tests, and `pytest` covers validation and scoring logic.
 - **Security-minded setup.** Least-privilege Snowflake role, private encrypted S3 bucket, secrets kept out of Git.
 
@@ -111,7 +114,7 @@ Snowflake           BANKING_FRAUD.RAW.TRANSACTIONS
 dbt                 stg_transactions (view) -> mart_daily_fraud_summary (table)
    |
    v
-Superset dashboard  (optional)
+Superset dashboard
 ```
 
 | Component | Responsibility |
@@ -123,7 +126,7 @@ Superset dashboard  (optional)
 | **Loader** | Reads Silver files and merges them into Snowflake |
 | **Snowflake** | Stores the queryable warehouse tables |
 | **dbt** | Builds staging and mart models and runs data tests |
-| **Superset** | Displays fraud KPIs (optional) |
+| **Superset** | Displays fraud KPIs from the Snowflake mart |
 
 ---
 
@@ -147,7 +150,7 @@ Superset dashboard  (optional)
 | Data lake | AWS S3 (Bronze: JSON Lines, Silver: Parquet) |
 | Warehouse | Snowflake |
 | Transformation and testing | dbt Core with `dbt-snowflake` |
-| Dashboard (optional) | Apache Superset |
+| Dashboard | Apache Superset |
 | Unit testing | pytest |
 
 ---
@@ -595,6 +598,25 @@ SELECT * FROM BANKING_FRAUD.ANALYTICS.MART_DAILY_FRAUD_SUMMARY ORDER BY TRANSACT
 
 ---
 
+## 📈 Dashboard
+
+Apache Superset connects to Snowflake and visualizes the dbt mart `BANKING_FRAUD.ANALYTICS.MART_DAILY_FRAUD_SUMMARY`.
+
+Six tiles cover the fraud picture:
+
+- **Total Transactions** and **Flagged Transactions** for volume and flagged counts
+- **Flagged Transaction %** as a gauge, plus a donut chart of the same share
+- **Average Risk Score** as a distribution across score bins
+- **SUM(Total_Transactions)** as a detail breakdown
+
+<p align="center">
+  <img src="docs/screenshots/superset-dashboard.jpg" alt="Apache Superset dashboard with total transactions, flagged transactions, flagged percentage gauge, average risk score distribution and flagged percentage donut chart" width="100%">
+  <br>
+  <sub><i>Superset dashboard on the Snowflake mart: 271 transactions in the captured run, flagged-transaction KPIs and the average risk score distribution.</i></sub>
+</p>
+
+---
+
 ## 🧪 Testing
 
 Run the unit tests from the project root:
@@ -713,9 +735,9 @@ The score is a heuristic indicator, not a probability of fraud.
 
 ## 👤 Author
 
-**SHARIQ AHMAD**
-BS, NED University
-**GitHub: [github.com/shariq-13]((https://github.com/shariq-13))**
+**Hamza Tufail**
+BS Software Engineering, Sindh Madressatul Islam University
+GitHub: [github.com/hamzatufai](https://github.com/hamzatufai)
 
 <p align="center">
   <sub>Built with Kafka · S3 · Snowflake · dbt · Python</sub>
