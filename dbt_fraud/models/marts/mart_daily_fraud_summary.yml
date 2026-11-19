@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: mart_daily_fraud_summary
+    description: Daily totals, flagged counts and amounts. Data is synthetic and scores are rule-based.
+    columns:
+      - name: transaction_date
+        tests:
+          - not_null
+          - unique

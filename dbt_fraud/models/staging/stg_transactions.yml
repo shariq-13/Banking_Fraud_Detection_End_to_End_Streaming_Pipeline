@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: stg_transactions
+    description: One row per transaction, cleaned and typed.
+    columns:
+      - name: transaction_id
+        tests:
+          - not_null
+          - unique
+      - name: amount
+        tests:
+          - not_null
+      - name: risk_level
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['LOW', 'MEDIUM', 'HIGH']
+      - name: is_fraud_flag
+        tests:
+          - not_null

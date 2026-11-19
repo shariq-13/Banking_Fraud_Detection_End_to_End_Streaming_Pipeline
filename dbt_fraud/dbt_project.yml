@@ -1,0 +1,15 @@
+name: fraud_warehouse
+version: "1.0.0"
+config-version: 2
+profile: fraud_warehouse
+
+model-paths: ["models"]
+test-paths: ["tests"]
+clean-targets: ["target", "dbt_packages", "logs"]
+
+models:
+  fraud_warehouse:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table

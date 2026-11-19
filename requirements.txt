@@ -1,0 +1,6 @@
+# Installs producer, consumer, loader and test dependencies into one venv.
+# dbt is intentionally excluded. Install it from dbt_fraud/requirements.txt.
+-r producer/requirements.txt
+-r consumer/requirements.txt
+-r loader/requirements.txt
+-r tests/requirements.txt

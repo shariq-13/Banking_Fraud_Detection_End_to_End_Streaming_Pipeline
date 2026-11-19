@@ -1,0 +1,17 @@
+# dbt connection profile for Snowflake.
+# No secrets are stored here. Values come from environment variables
+# loaded from the project .env file by scripts/run_dbt.sh.
+fraud_warehouse:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role: "{{ env_var('SNOWFLAKE_ROLE') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE') }}"
+      schema: "{{ env_var('DBT_SCHEMA', 'ANALYTICS') }}"
+      threads: 2
+      enable_server_session_keep_alive_auto_detection: true

@@ -1,0 +1,24 @@
+# Secrets
+.env
+*.pem
+*.key
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# dbt
+dbt_fraud/target/
+dbt_fraud/logs/
+dbt_fraud/dbt_packages/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+.env
+.venv/
+__pycache__/
+*.pyc

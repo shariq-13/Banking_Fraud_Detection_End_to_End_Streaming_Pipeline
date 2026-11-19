@@ -1,0 +1,40 @@
+us-east-1
+
+
+
+
+
+aws sts get-caller-identity
+aws s3 ls s3://real-time-banking-fraud-detection-data
+{                                                                                
+    "UserId": "AIDA2LNCURTY2YF7RNV4O",
+    "Account": "711695043825",
+    "Arn": "arn:aws:iam::711695043825:user/project-user"
+}
+
+cd ~
+tar -xzf kafka_2.13-4.4.0.tgz   # adjust the file name to your download
+mv kafka_2.13-* kafka
+cd ~/kafka
+
+cd ~/kafka
+
+UUID=vXGPzgKZSImD8i1iw9fq_A
+
+
+cd ~/home/shariq/projects/realtime-banking-fraud-detection
+export KAFKA_HOME=$HOME/kafka
+./scripts/create_kafka_topics.sh
+
+cd ~/projects/realtime-banking-fraud-detection
+export KAFKA_HOME=$HOME/kafka
+./scripts/create_kafka_topics.sh
+cd ~/projects/REAL-TIME-BANKING-FRAUD-DETECTION-PIPELINE
+
+cd ~/projects/realtime-banking-fraud-detection
+source .venv/Scripts/activate
+python -m producer.generate_transactions
+python3 -m producer.generate_transactions
+python3 -m loader.load_s3_to_snowflake
+python3 -m pytest -q
+python3 -m pytest -v

@@ -1,0 +1,2 @@
+# Install in a SEPARATE virtual environment (see SETUP_GUIDE.md, step 9).
+dbt-snowflake

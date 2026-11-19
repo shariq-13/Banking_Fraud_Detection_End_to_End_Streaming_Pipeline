@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: RAW
+    tables:
+      - name: transactions
+        description: Silver transactions loaded from S3 by loader/load_s3_to_snowflake.py
